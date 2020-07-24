@@ -1,0 +1,11 @@
+## Interface: 80300
+## Title: RPManager
+## Title-deDE: RPManager
+## Author: eldarion (Pris-Aldor)
+## Version: 1.0
+## Notes: The roleplay manager
+## Notes-deDE: Der Rollenspiel-Manager
+## SavedVariables: RPMAccountDB
+## SavedVariablesPerCharacter: RPMCharacterDB
+
+RPManager.xml
