@@ -1,0 +1,98 @@
+--
+-- Created by IntelliJ IDEA.
+-- User: Cedrik Duval (eldarion / Priss)
+-- Date: 23.02.2019
+-- Time: 14:31
+--
+
+local loaded = false;
+function initMapTextureList()
+    if loaded then
+        return
+    end
+    loaded = true;
+
+    mapTextureList = {
+        -- Simpel: Zahlen geben Kachel vor
+        "80WarfrontsArathiH/80WarfrontsArathiH1",
+        "80WarfrontsArathiH/80WarfrontsArathiH10",
+        "80WarfrontsArathiH/80WarfrontsArathiH11",
+        "80WarfrontsArathiH/80WarfrontsArathiH12",
+        "80WarfrontsArathiH/80WarfrontsArathiH2",
+        "80WarfrontsArathiH/80WarfrontsArathiH3",
+        "80WarfrontsArathiH/80WarfrontsArathiH4",
+        "80WarfrontsArathiH/80WarfrontsArathiH5",
+        "80WarfrontsArathiH/80WarfrontsArathiH6",
+        "80WarfrontsArathiH/80WarfrontsArathiH7",
+        "80WarfrontsArathiH/80WarfrontsArathiH8",
+        "80WarfrontsArathiH/80WarfrontsArathiH9",
+
+        -- Simpel 2: Zahlen geben Kachel vor, aber zus. Zahl als Nummer
+        "70BlackTempleLegion/70BlackTempleLegion1_1",
+        "70BlackTempleLegion/70BlackTempleLegion1_10",
+        "70BlackTempleLegion/70BlackTempleLegion1_11",
+        "70BlackTempleLegion/70BlackTempleLegion1_12",
+        "70BlackTempleLegion/70BlackTempleLegion1_2",
+        "70BlackTempleLegion/70BlackTempleLegion1_3",
+        "70BlackTempleLegion/70BlackTempleLegion1_4",
+        "70BlackTempleLegion/70BlackTempleLegion1_5",
+        "70BlackTempleLegion/70BlackTempleLegion1_6",
+        "70BlackTempleLegion/70BlackTempleLegion1_7",
+        "70BlackTempleLegion/70BlackTempleLegion1_8",
+        "70BlackTempleLegion/70BlackTempleLegion1_9",
+
+        -- 2 unterschiedliche Karten im selben Ordner
+        -- ueberlappen sich auch noch
+        "HourofTwilight/HourofTwilight1",
+        "HourofTwilight/HourofTwilight1_1",
+        "HourofTwilight/HourofTwilight1_10",
+        "HourofTwilight/HourofTwilight1_11",
+        "HourofTwilight/HourofTwilight1_12",
+        "HourofTwilight/HourofTwilight1_2",
+        "HourofTwilight/HourofTwilight1_3",
+        "HourofTwilight/HourofTwilight1_4",
+        "HourofTwilight/HourofTwilight1_5",
+        "HourofTwilight/HourofTwilight1_6",
+        "HourofTwilight/HourofTwilight1_7",
+        "HourofTwilight/HourofTwilight1_8",
+        "HourofTwilight/HourofTwilight1_9",
+        "HourofTwilight/HourofTwilight10",
+        "HourofTwilight/HourofTwilight11",
+        "HourofTwilight/HourofTwilight12",
+        "HourofTwilight/HourofTwilight2",
+        "HourofTwilight/HourofTwilight3",
+        "HourofTwilight/HourofTwilight4",
+        "HourofTwilight/HourofTwilight5",
+        "HourofTwilight/HourofTwilight6",
+        "HourofTwilight/HourofTwilight7",
+        "HourofTwilight/HourofTwilight8",
+        "HourofTwilight/HourofTwilight9",
+
+        -- mehrere Verzeichnisebenen
+        "MicroDungeon/Deepholm/TwilightDepths/TwilightDepths1_1",
+        "MicroDungeon/Deepholm/TwilightDepths/TwilightDepths1_10",
+        "MicroDungeon/Deepholm/TwilightDepths/TwilightDepths1_11",
+        "MicroDungeon/Deepholm/TwilightDepths/TwilightDepths1_12",
+        "MicroDungeon/Deepholm/TwilightDepths/TwilightDepths1_2",
+        "MicroDungeon/Deepholm/TwilightDepths/TwilightDepths1_3",
+        "MicroDungeon/Deepholm/TwilightDepths/TwilightDepths1_4",
+        "MicroDungeon/Deepholm/TwilightDepths/TwilightDepths1_5",
+        "MicroDungeon/Deepholm/TwilightDepths/TwilightDepths1_6",
+        "MicroDungeon/Deepholm/TwilightDepths/TwilightDepths1_7",
+        "MicroDungeon/Deepholm/TwilightDepths/TwilightDepths1_8",
+        "MicroDungeon/Deepholm/TwilightDepths/TwilightDepths1_9",
+        "MicroDungeon/Deepholm/TwilightDepths/TwilightDepths2_1",
+        "MicroDungeon/Deepholm/TwilightDepths/TwilightDepths2_10",
+        "MicroDungeon/Deepholm/TwilightDepths/TwilightDepths2_11",
+        "MicroDungeon/Deepholm/TwilightDepths/TwilightDepths2_12",
+        "MicroDungeon/Deepholm/TwilightDepths/TwilightDepths2_2",
+        "MicroDungeon/Deepholm/TwilightDepths/TwilightDepths2_3",
+        "MicroDungeon/Deepholm/TwilightDepths/TwilightDepths2_4",
+        "MicroDungeon/Deepholm/TwilightDepths/TwilightDepths2_5",
+        "MicroDungeon/Deepholm/TwilightDepths/TwilightDepths2_6",
+        "MicroDungeon/Deepholm/TwilightDepths/TwilightDepths2_7",
+        "MicroDungeon/Deepholm/TwilightDepths/TwilightDepths2_8",
+        "MicroDungeon/Deepholm/TwilightDepths/TwilightDepths2_9",
+
+    }
+end
