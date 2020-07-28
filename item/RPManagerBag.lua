@@ -623,7 +623,7 @@ function drawItemFrame(itemID, _type, data)
     local grp2 = RPMGui.addSimpleGroup("Flow",f)
     local txt = RPMGui.addTextArea(11, 50000, item.script, grp2, function(self, event)
       -- only view and copy
-      item.script = self:GetText()
+--      item.script = self:GetText()
     end)
     txt:SetHeight(355)
     RPMGui.addButton(L["testScript"], 150, grp2, function()
