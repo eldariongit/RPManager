@@ -121,42 +121,42 @@ local interfaceOptions = {
       inline = true,
       order = 21,
       args = {
-        script = {
-          type = "group",
-          name = "",
-          inline = true,
-          order = 22,
-          args = {
-            scriptPermissionDesc = {
-              type = "description",
-              order = 23,
-              name = "|CFFFF0000"..L["scriptPermissionDesc"],
-              fontSize = "medium",
-              width = "full",
-            },
-            scriptPermission = {
-              type = "select",
-              order = 24,
-              name = L["scriptPermission"],
-              width = 1,
-              values = {
-                ["blockScript"] = L["blockScript"],
-                ["queryScript"] = L["queryScript"],
-                ["whitelistScript"] = L["whitelistScript"],
-              },
-              --          sorting = {"blockScript", "queryScript" },
-              style = "radio",
-              get = function() return RPMCharacterDB.profile.scriptPermissions end,
-              set = function(_, val) RPMCharacterDB.profile.scriptPermissions = val end,
-            },
-            whitelist = {
-              type = "execute",
-              order = 25,
-              name = L["whitelist"],
-              func = function() openWhitelist() end,
-            },
-          }
-        },
+--        script = {
+--          type = "group",
+--          name = "",
+--          inline = true,
+--          order = 22,
+--          args = {
+--            scriptPermissionDesc = {
+--              type = "description",
+--              order = 23,
+--              name = "|CFFFF0000"..L["scriptPermissionDesc"],
+--              fontSize = "medium",
+--              width = "full",
+--            },
+--            scriptPermission = {
+--              type = "select",
+--              order = 24,
+--              name = L["scriptPermission"],
+--              width = 1,
+--              values = {
+--                ["blockScript"] = L["blockScript"],
+--                ["queryScript"] = L["queryScript"],
+--                ["whitelistScript"] = L["whitelistScript"],
+--              },
+--              --          sorting = {"blockScript", "queryScript" },
+--              style = "radio",
+--              get = function() return RPMCharacterDB.profile.scriptPermissions end,
+--              set = function(_, val) RPMCharacterDB.profile.scriptPermissions = val end,
+--            },
+--            whitelist = {
+--              type = "execute",
+--              order = 25,
+--              name = L["whitelist"],
+--              func = function() openWhitelist() end,
+--            },
+--          }
+--        },
         numBags = {
           type = "range",
           order = 26,

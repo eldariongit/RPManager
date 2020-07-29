@@ -47,7 +47,7 @@ local function copyDefaultQuest2Journal()
 end
 
 function RPManager:resetIntroQuest()
-  RPMDialog.showYesNoDialog(L["deleteQuestQry"], true, function(self)
+  RPMDialog.showYesNoDialog(L["deleteQuestQry"], true, function()
     for questID, quest in pairs(RPMAccountDB.quests) do
       if quest.title == title then
         RPMAccountDB.quests[questID] = nil
@@ -130,8 +130,11 @@ function RPManager:initCharDB()
     RPMCharacterDB.profile.activeBag = RPManager.BAG_TYPE_ACCOUNT
     RPMCharacterDB.profile.numBags = 1
   end
-  if RPMCharacterDB.profile.scriptPermissions == nil then
-    RPMCharacterDB.profile.scriptPermissions = "blockScript"
+--  if RPMCharacterDB.profile.scriptPermissions == nil then
+--    RPMCharacterDB.profile.scriptPermissions = "blockScript"
+--  end
+  if RPMCharacterDB.profile.scriptPermissions ~= nil then
+    RPMCharacterDB.profile.scriptPermissions = nil
   end
   if RPMCharacterDB.items == nil then
     RPMCharacterDB.items = {}
