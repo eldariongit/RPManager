@@ -208,7 +208,6 @@ local libDataBroker = LibStub("LibDataBroker-1.1"):NewDataObject("RPManager", {
     elseif btn == "LeftButton" then
       RPM_openJournal()
     elseif btn == "MiddleButton" then
---      RPManager.toolBar:Show()
       RPManager:toggleToolbar(true)
     end
   end,
