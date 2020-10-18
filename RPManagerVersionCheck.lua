@@ -19,6 +19,6 @@
 local L = LibStub("AceLocale-3.0"):GetLocale("RPManager")
 local displayBuild, _, _, interfaceVersionNumber = GetBuildInfo()
 
-if interfaceVersionNumber < 80000 then
+if interfaceVersionNumber < 90001 then
 	print((L["versionError"]):format(displayBuild))
 end
