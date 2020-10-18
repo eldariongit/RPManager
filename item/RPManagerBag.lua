@@ -173,7 +173,7 @@ end
 local function drawAdditionalBags()
   closeAdditionalBags()
   if not isInAccountDB() then
-    local numBags = RPMCharacterDB.profile.numBags
+    local numBags = RPMCharacterDB.profile.numBags or 1
     for i = 2, numBags do
       drawAdditionalBag(i)
     end
