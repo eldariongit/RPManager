@@ -2,10 +2,10 @@ if RPMWhitelist ~= nil then
   return
 end
 
-
+-- Add any exception here at your own risk!
 local whitelist = {
-  "4146470940", -- Manaflow (enUS)
-  "598125325", -- Manaflow (deDE)
+  "3963504668", -- Manaflow (enUS)
+  "3277221330", -- Manaflow (deDE)
   "1488823541", -- Airgun (enUS)
   "3498968952", -- Airgun (deDE)
   "1911885282", -- Airgun Target (enUS)

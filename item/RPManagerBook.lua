@@ -143,7 +143,7 @@ local redBorder = {
   insets = { left = 1, right = 1,top = 1,bottom = 1} }
 
 local function drawTextField(field, editMode, bolded)
-  local f = CreateFrame("SimpleHTML", nil, RPManager.bookFrame)
+  local f = CreateFrame("SimpleHTML", nil, RPManager.bookFrame, BackdropTemplateMixin and "BackdropTemplate")
   if editMode and field.selected then
     f:SetBackdrop(redBorder)
     if RPManager.itemFrame.controlPanel == nil then
@@ -176,7 +176,7 @@ local function drawTextField(field, editMode, bolded)
 end
 
 local function drawIconField(field, editMode)
-  local f = CreateFrame("Button", nil, RPManager.bookFrame)
+  local f = CreateFrame("Button", nil, RPManager.bookFrame, BackdropTemplateMixin and "BackdropTemplate")
   local t = f:CreateTexture(nil, "BACKGROUND")
   t:SetTexture(field.path)
   t:SetTexCoord(
@@ -228,7 +228,7 @@ local function setTexCoord(tex, left, right, top, bottom, w, h, angle, originx, 
 end
 
 local function drawTextureField(field, editMode)
-  local f = CreateFrame("Frame", nil, RPManager.bookFrame)
+  local f = CreateFrame("Frame", nil, RPManager.bookFrame, BackdropTemplateMixin and "BackdropTemplate")
   local t = f:CreateTexture(nil, "BACKGROUND")
   t:SetTexture(field.path)
   --  t:SetTexCoord(

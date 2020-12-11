@@ -124,7 +124,7 @@ function RPM_putMapOnScreen(frame, key)
   frame:SetWidth(256*xTiles + 10)
   frame:SetHeight(256*yTiles + 30)
 
-  local pane = CreateFrame("Button", nil, frame.frame)
+  local pane = CreateFrame("Button", nil, frame.frame, BackdropTemplateMixin and "BackdropTemplate")
   pane:SetPoint("CENTER",frame.frame,"CENTER",0,-15)
   pane:SetSize(256*xTiles-30, 256*yTiles-80)
   pane:SetBackdrop(RPM_BD)

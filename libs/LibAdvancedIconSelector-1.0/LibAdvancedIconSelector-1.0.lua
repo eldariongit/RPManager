@@ -260,7 +260,7 @@ function IconSelectorWindow:Create(name, parent, options)
 	if not parent then parent = UIParent end
 	options = Helpers.ApplyDefaults(options, defaults)
 
-	self = self:MixInto(CreateFrame("Frame", name, parent))
+	self = self:MixInto(CreateFrame("Frame", name, parent, BackdropTemplateMixin and "BackdropTemplate"))
 	self:Hide()
 	self:SetFrameStrata("MEDIUM")
 	self:SetSize(options.width, options.height)
