@@ -12,7 +12,6 @@ local whitelist = {
 
 RPMWhitelist = {
   isWhitelisted = function(hash)
---    return RPMUtil.contains(whitelist, tostring(hash))
-    return true
+    return RPMUtil.contains(whitelist, tostring(hash))
   end,
 }
