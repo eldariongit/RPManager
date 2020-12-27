@@ -42,9 +42,39 @@ function RPManager:filterMaplist(filter)
   if filteredMapPaths[filterM1] ~= nil then
     self:filterMapFromList(filteredMapPaths[filterM1], filter)
   else
-    self:filterMapFromPaths("", getMapList(), filter)
+    self:filterMapFromPaths("", RPM_getMapList(), filter)
   end
   filteredMapPaths[filter] = mapPaths
+end
+
+local function drawPath(path, p)
+  local l = aceGUI:Create("InteractiveLabel")
+  l:SetText(path)
+  l:SetColor(1,1,1)
+  l.width = "fill"
+  l:SetHeight(30)
+  l:SetFont(RPMFont.ARIAL, 20, nil)
+  l:SetCallback("OnEnter", function(self)
+    self.label:SetVertexColor(1,.8,.1)
+    RPManager.mapPickerDialog:SetStatusText(L["selectDoubleClick"])
+  end)
+  l:SetCallback("OnLeave", function(self)
+    self.label:SetVertexColor(1,1,1)
+    RPManager.mapPickerDialog:SetStatusText("")
+  end)
+  l:SetCallback("OnClick", function()
+    if labelClickTimer == nil then
+      labelClickTimer = RPManager:ScheduleTimer(function() labelClickTimer = nil end, .25)
+      currPath = path
+    else
+      RPManager:CancelTimer(labelClickTimer)
+      labelClickTimer = nil
+      RPManager.mapPickerDialog.callback(path, RPManager.mapPickerDialog.filter)
+      RPManager.mapPickerDialog:Hide()
+    end
+  end)
+  p:AddChild(l)
+  return l
 end
 
 local function updateMapPicker(filter)
@@ -134,34 +164,4 @@ local function formatTime(secs)
     s = tostring(s)
   end
   return string.format(" (%i:%s)", m, s)
-end
-
-local function drawPath(path, p)
-  local l = aceGUI:Create("InteractiveLabel")
-  l:SetText(path)
-  l:SetColor(1,1,1)
-  l.width = "fill"
-  l:SetHeight(30)
-  l:SetFont(RPMFont.ARIAL, 20, nil)
-  l:SetCallback("OnEnter", function(self)
-      self.label:SetVertexColor(1,.8,.1)
-      RPManager.mapPickerDialog:SetStatusText(L["selectDoubleClick"])
-    end)
-  l:SetCallback("OnLeave", function(self)
-      self.label:SetVertexColor(1,1,1)
-      RPManager.mapPickerDialog:SetStatusText("")
-    end)
-  l:SetCallback("OnClick", function()
-    if labelClickTimer == nil then
-      labelClickTimer = RPManager:ScheduleTimer(function() labelClickTimer = nil end, .25)
-      currPath = path
-    else
-      RPManager:CancelTimer(labelClickTimer)
-      labelClickTimer = nil
-      RPManager.mapPickerDialog.callback(path, RPManager.mapPickerDialog.filter)
-      RPManager.mapPickerDialog:Hide()
-    end
-  end)
-  p:AddChild(l)
-  return l
 end

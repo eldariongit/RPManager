@@ -20,7 +20,7 @@ function RPM_getMap(fullPath)
   return mapTiles[fullPath]
 end
 
-local function getMapList()
+function RPM_getMapList()
   return mapList
 end
 
