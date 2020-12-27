@@ -6,7 +6,7 @@ end
 local whitelist = {
   "4092367861", "4267839665", -- Manaflow (enUS/deDE)
   "1488823541", "3498968952", -- Airgun (enUS/deDE)
-  "1911885282", "2889388785", -- Airgun Target (enUS/deDE)
+  "3968916464", "3707229655", -- Airgun Target (enUS/deDE)
   "1819029890", "671494025",  -- Gamebox Apexis (enUS/deDE)
 }
 
