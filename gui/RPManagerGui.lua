@@ -19,6 +19,7 @@ aceGUI:RegisterLayout("backbutton",
 RPMGui = {
   addInlineGroup = function(title, layout,p)
     local box = aceGUI:Create("InlineGroup")
+    box:SetCallback("OnClose", function(widget) AceGUI:Release(widget) end)
     box:SetLayout(layout)
     box:SetTitle(title)
     box:SetRelativeWidth(1)
@@ -125,7 +126,7 @@ RPMGui = {
     h:SetText(text)
     h:SetRelativeWidth(1)
     p:AddChild(h)
-    return h,box
+    return h
   end,
 
   addEditBox = function(label, text, width, _max, p, func)
@@ -135,6 +136,11 @@ RPMGui = {
     txt:SetWidth(width)
     txt:DisableButton(true)
     txt:SetMaxLetters(_max)
+    txt:SetCallback("OnRelease", function(self)
+      self.editbox:SetScript("OnEnterPressed", nil)
+      self.editbox:SetScript("OnTabPressed", nil)
+      self.editbox:SetScript("OnEscapePressed", nil)
+    end)
     txt:SetCallback("OnEnterPressed", function(self)
       func(self)
       aceGUI:ClearFocus()
@@ -148,6 +154,7 @@ RPMGui = {
       txt:SetText(text)
       aceGUI:ClearFocus()
     end)
+    txt.editbox:SetNumeric(false)
     p:AddChild(txt)
     return txt
   end,
