@@ -20,6 +20,8 @@ RPMItem = {
       checkType = RPManager.ITEM_TYPE_MAP
     elseif item.pages ~= nil then
       checkType = RPManager.ITEM_TYPE_BOOK
+    elseif item.emotes ~= nil then
+      checkType = RPManager.ITEM_TYPE_EMOTE
     else
       checkType = RPManager.ITEM_TYPE_SIMPLE
     end

@@ -140,6 +140,13 @@ RPMTemplate = {
         { fields = {} } -- Page 1
       }
       item.currPage = 1
+    elseif itemType == RPManager.ITEM_TYPE_EMOTE then
+      item.name = L["newEmote"]
+      item.path = "interface/icons/wow_token01"
+      item.forceStand = false
+      item.emotes = {
+        { emote = "", delay = 0 } -- 1st emote
+      }
     end
 
     if data ~= nil then

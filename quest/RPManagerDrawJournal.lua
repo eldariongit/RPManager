@@ -390,7 +390,9 @@ function RPM_openItemJrnFrm(questID, chapterNr)
   elseif chapter.itemtype == RPManager.ITEM_TYPE_MAP then
     
   elseif chapter.itemtype == RPManager.ITEM_TYPE_BOOK then
-    
+
+  elseif chapter.itemtype == RPManager.ITEM_TYPE_EMOTE then
+
   end
 end
 

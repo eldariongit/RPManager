@@ -12,7 +12,7 @@ local selectableItems = {
   { text = L["simple"], func = function() drawItemFrame(nil, RPManager.ITEM_TYPE_SIMPLE) end },
   { text = L["book"], func = function() drawItemFrame(nil, RPManager.ITEM_TYPE_BOOK) end },
   { text = L["map"], func = function() drawItemFrame(nil, RPManager.ITEM_TYPE_MAP) end },
---  { text = L["script"], func = function() drawItemFrame(nil, RPManager.ITEM_TYPE_SCRIPT) end },
+  { text = L["emote"], func = function() drawItemFrame(nil, RPManager.ITEM_TYPE_EMOTE) end },
 }
 
 local function createSpecialItemsEntries()
@@ -180,9 +180,9 @@ local function drawAdditionalBags()
   end
 end
 
-local function drawSwitchButton(p)
+local function drawButton(x, y, p, icon, onClick, onEnter, onLeave)
   local f = CreateFrame("Frame", nil, p)
-  f:SetPoint("BOTTOMLEFT", p, "BOTTOMLEFT", 153, 187)
+  f:SetPoint("BOTTOMLEFT", p, "BOTTOMLEFT", x, y)
   f:SetSize(27, 27)
   f:SetFrameLevel(14)
   local t = f:CreateTexture(nil, "BACKGROUND")
@@ -194,24 +194,48 @@ local function drawSwitchButton(p)
   b:SetPoint("CENTER", f, "CENTER", 0, 0)
   b:SetSize(24, 24)
   b:SetFrameLevel(15)
-  b:SetScript("OnClick", function()
-    if RPMCharacterDB.profile.activeBag == RPManager.BAG_TYPE_CHAR then
-      RPMCharacterDB.profile.activeBag = RPManager.BAG_TYPE_ACCOUNT
-    else
-      RPMCharacterDB.profile.activeBag = RPManager.BAG_TYPE_CHAR
-    end
-    drawAdditionalBags()
-    RPMBag.updateBag()
-    switchStatusBagText(p)
-  end)
-  b:SetScript("OnEnter", function()
-    switchStatusBagText(p)
-  end)
-  b:SetScript("OnLeave", function() setStatusText(p) end)
+  b:SetScript("OnClick", onClick)
+  b:SetScript("OnEnter", onEnter)
+  b:SetScript("OnLeave", onLeave)
 
-  t = b:CreateTexture(nil, "BACKGROUND")
+  local t = b:CreateTexture(nil, "BACKGROUND")
   t:SetAllPoints()
-  p.switchButtonTex = t
+  t:SetTexture("Interface/icons/"..icon)
+
+  return b, t
+end
+
+local function drawScriptStopButton(p)
+  local btn = drawButton(123, 187, p, "inv_misc_enggizmos_27", function()
+      RPManager:initScriptExecutionMonitor()
+      p.cancelButton:Hide()
+    end,
+    function() setStatusText(p, L["stopScriptsEmotes"]) end,
+    function() setStatusText(p) end)
+
+  p.cancelButton = btn
+  if RPManager:isScriptExecuting() then
+    p.cancelButton:Show()
+  else
+    p.cancelButton:Hide()
+  end
+end
+
+local function drawSwitchButton(p)
+  local _, tex = drawButton(153, 187, p, "", function()
+      if RPMCharacterDB.profile.activeBag == RPManager.BAG_TYPE_CHAR then
+        RPMCharacterDB.profile.activeBag = RPManager.BAG_TYPE_ACCOUNT
+      else
+        RPMCharacterDB.profile.activeBag = RPManager.BAG_TYPE_CHAR
+      end
+      drawAdditionalBags()
+      RPMBag.updateBag()
+      switchStatusBagText(p)
+    end,
+    function() switchStatusBagText(p) end,
+    function() setStatusText(p) end)
+
+  p.switchButtonTex = tex
 end
 
 local function getCreator(itemID)
@@ -359,6 +383,8 @@ local function drawItem(c, r, itemID, p)
           RPM_openMap(itemID)
         elseif item.type == RPManager.ITEM_TYPE_BOOK then
           RPMBook.drawBook(itemID, false)
+        elseif item.type == RPManager.ITEM_TYPE_EMOTE then
+          RPMEmote.playEmotes(itemID)
         end
       end
     elseif btn == "RightButton" then
@@ -431,6 +457,10 @@ RPMBag = {
     move2Bag(item, slot)
   end,
 
+  getItem = function(itemID)
+    return getCurrentDB().items[itemID]
+  end,
+
   drawBag = function()
     if RPManager.bagFrame ~= nil and RPManager.bagFrame[1] ~= nil then
       RPMBag.closeBag()
@@ -445,18 +475,18 @@ RPMBag = {
 
     RPMGui.addCloseButton(f, 4, -1, RPMBag.closeBag)
 
-    local cmd1 = drawCmdButton(12,186,20,20,15,f,L["newItemB"],function()
+    local cmd1 = drawCmdButton(12, 186, 20, 20, 15, f, L["newItemB"], function()
       local menuFrame = CreateFrame("Frame", tostring(GetTime()), UIParent, "UIDropDownMenuTemplate")
       local itemList = RPMUtil.deepCopy(selectableItems)
       if RPMItem.isRPMItemsAvailable() then
         table.insert(itemList, createSpecialItemsEntries())
       end
       EasyMenu(itemList, menuFrame, "cursor", 0 , 0, "MENU")
-    end,L["newItemBDesc"])
+    end, L["newItemBDesc"])
     local cmd2 = drawCmdButton(32,186,20,20,15,f,L["editItem"],function()
       f.editMode = true
       SetCursor("interface/cursor/interact")
-    end,L["editItemDesc"])
+    end, L["editItemDesc"])
     local cmd3 = drawCmdButton(52,186,20,20,15,f,L["copyItem"],function()
       f.copyMode = true
       SetCursor("interface/cursor/interact")
@@ -477,6 +507,7 @@ RPMBag = {
       end
     end)
 
+    drawScriptStopButton(f)
     drawSwitchButton(f)
     drawAdditionalBags()
 
@@ -498,14 +529,11 @@ RPMBag = {
       end
     end
 
-    --  local tex1 = (isInAccountDB and "inv_box_02") or "inv_misc_bag_08"
-    --  local i = CreateFrame("Frame", nil, RPManager.bagFrame[1])
-    --  i:SetPoint("TOPLEFT", RPManager.bagFrame[1], "TOPLEFT", 5, -10)
-    --  i:SetSize(32, 32)
-    --  local t = i:CreateTexture(nil, "BACKGROUND")
-    ----  t:SetTexCoord(2/32, 31/32, 2/32, 31/32)
-    --  SetPortraitToTexture(t, "interface/icons/"..tex1)
-    --  t:SetAllPoints()
+    if RPManager:isScriptExecuting() then
+      RPManager.bagFrame[1].cancelButton:Show()
+    else
+      RPManager.bagFrame[1].cancelButton:Hide()
+    end
 
     local tex2 = (isInAccountDB and "inv_misc_bag_08") or "inv_box_02"
     RPManager.bagFrame[1].switchButtonTex:SetTexture("interface/icons/"..tex2)
@@ -661,6 +689,8 @@ function drawItemFrame(itemID, _type, data)
     RPM_drawTokenFrame(itemID)
   elseif item.type == RPManager.ITEM_TYPE_BOOK then
     RPMBook.drawBookFrame(itemID, grp1)
+  elseif item.type == RPManager.ITEM_TYPE_EMOTE then
+    RPMEmote.drawEmoteFrame(itemID, grp1)
   end
   f:DoLayout()
 end

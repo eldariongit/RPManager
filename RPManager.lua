@@ -236,6 +236,8 @@ RPManager.soundPickerDialog = nil
 RPManager.mapPickerDialog = nil
 RPManager.iconPickerDialog = nil
 
+RPManager.scriptExecutionMonitor = nil
+
 --
 -- Init
 --
@@ -256,6 +258,7 @@ function RPManager:OnInitialize()
   self:initCharDB()
   self:initTRPCheck()
   self:initRPMItemsCheck()
+  self:initScriptExecutionMonitor()
 
   RPMIO.registerAddonMessagePrefix()
   minimapBtn:Register("RPManagerDB", libDataBroker, RPMCharacterDB.profile.minimap)
@@ -264,6 +267,32 @@ function RPManager:OnInitialize()
   self:RegisterChatCommand("rpm", "handleChatCommand")
 
   greet()
+end
+
+function RPManager:initScriptExecutionMonitor(type)
+  if (type ~= nil) and RPManager.scriptExecutionMonitor.running then
+    return false
+  end
+  if RPManager.scriptExecutionMonitor == nil then
+    RPManager.scriptExecutionMonitor = {}
+  elseif #RPManager.scriptExecutionMonitor.elements > 0 then
+    for i = #RPManager.scriptExecutionMonitor.elements, 1, -1 do
+      RPManager:CancelTimer(RPManager.scriptExecutionMonitor.elements[i])
+      RPManager.scriptExecutionMonitor.elements[i] = nil
+    end
+  end
+  RPManager.scriptExecutionMonitor.type = type
+  RPManager.scriptExecutionMonitor.elements =  {}
+  RPManager.scriptExecutionMonitor.running = (type ~= nil)
+  return true
+end
+
+function RPManager:addScriptExecution(id)
+  table.insert(RPManager.scriptExecutionMonitor.elements, id)
+end
+
+function RPManager:isScriptExecuting()
+  return RPManager.scriptExecutionMonitor.running
 end
 
 function RPManager:OnEnable()

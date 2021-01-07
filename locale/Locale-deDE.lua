@@ -91,6 +91,7 @@ L["charLabel"]              = "RPBag - Charakter"
 L["copiedToBagChar"]        = "%s wurde in die Charaktertasche kopiert."
 L["copiedToBagAccount"]     = "%s wurde in die Account-Tasche kopiert."
 L["hash"]                   = "Hash"
+L["stopScriptsEmotes"]      = "Skripte/Emotes stoppen"
 
 -- RPManagerBook.lua
 L["journal_bronze"]      = "Journal, Bronze"
@@ -313,6 +314,14 @@ L["newOpponent"]            = "Neuer Gegner"
 L["downDesc"]               = "Verschiebt das Kapitel einen tiefer"
 L["upDesc"]                 = "Verschiebt das Kapitel einen h\195\182her"
 
+-- RPManagerEmote.lua
+L["addEmote"]               = "Emote hinzu"
+L["addEmoteDesc"]           = "F\195\188gt ein weiteres Emote hinzu"
+L["forceStand"]             = "Aufstehen"
+L["forceStandDesc"]         = "Zwingt den Charakter, sich zu erheben. Alle Emotes werden dadurch um 4 Sekunden verz\195\182gert"
+L["emoteName"]              = "Emote"
+L["delay"]                  = "Verz\195\182gerung (in Sek.)"
+
 -- RPManagerForms.lua
 L["back"]                   = "Zur\195\188ck"
 
@@ -386,6 +395,7 @@ L["noTitle"]                = "Ohne Titel"
 L["newScript"]              = "Neues Skript"
 L["newMap"]                 = "Neue Karte"
 L["newBook"]                = "Neues Buch"
+L["newEmote"]               = "Neues Emote"
 L["newSimple"]              = "Neues Einfach-Item"
 L["bagFull2"]               = "Kein freier Taschenplatz verf\195\188gbar."
 

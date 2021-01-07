@@ -19,6 +19,7 @@
   
   <Script file="RPManagerBag.lua"/>
   <Script file="RPManagerBook.lua"/>
+  <Script file="RPManagerEmote.lua"/>
   <Script file="RPManagerImageViewer.lua"/>
   <Script file="RPManagerItem.lua"/>
   <Script file="RPManagerMapMaker.lua"/>
