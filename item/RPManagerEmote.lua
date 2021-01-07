@@ -19,14 +19,14 @@ local function updateEmoteFrame(itemID)
     local iBox = RPMGui.addInlineGroup("", "Flow", scroll)
 
     RPMGui.addShortLabel(L["emoteName"], iBox, RPMFont.FRITZ, 80, 12, "")
-    local name = RPMGui.addEditBox("", "", 150, 10, iBox, function(self)
+    local name = RPMGui.addEditBox("", emote.emote, 150, 10, iBox, function(self)
       emote.emote = self:GetText()
     end)
 
     RPMGui.addSpacer(iBox, 15)
 
     RPMGui.addShortLabel(L["delay"], iBox, RPMFont.FRITZ, 150, 12, "")
-    local delay = RPMGui.addNumericBox("", "", 40, 3, iBox, function(self)
+    local delay = RPMGui.addNumericBox("", emote.delay, 40, 3, iBox, function(self)
       emote.delay = tonumber(self:GetText())
     end)
 
