@@ -136,24 +136,34 @@ RPMGui = {
     txt:SetWidth(width)
     txt:DisableButton(true)
     txt:SetMaxLetters(_max)
-    txt:SetCallback("OnRelease", function(self)
-      self.editbox:SetScript("OnEnterPressed", nil)
-      self.editbox:SetScript("OnTabPressed", nil)
-      self.editbox:SetScript("OnEscapePressed", nil)
+    txt:SetCallback("OnRelease", function(obj)
+      obj.editbox:SetScript("OnEnterPressed", nil)
+      obj.editbox:SetScript("OnTabPressed", nil)
+      obj.editbox:SetScript("OnEscapePressed", nil)
+      obj.editbox:SetScript("OnEditFocusLost", nil)
     end)
-    txt:SetCallback("OnEnterPressed", function(self)
-      func(self)
-      aceGUI:ClearFocus()
-    end)
+    txt:SetCallback("OnEnterPressed", function(obj)
+        obj.editbox.isDirty = false
+        func(obj)
+        aceGUI:ClearFocus()
+      end)
     txt.editbox:SetScript("OnTabPressed", function(frame)
-      local self = frame.obj
-      local value = frame:GetText()
-      self:Fire("OnEnterPressed", value)
-    end)
-    txt.editbox:SetScript("OnEscapePressed", function()
-      txt:SetText(text)
-      aceGUI:ClearFocus()
-    end)
+        frame.obj:Fire("OnEnterPressed", frame:GetText())
+      end)
+    txt.editbox:SetScript("OnEscapePressed", function(frame)
+        frame.isDirty = false
+        txt:SetText(text)
+        aceGUI:ClearFocus()
+      end)
+    txt.editbox:SetScript("OnEditFocusLost", function(frame)
+        RPManager:ScheduleTimer(function()
+          if frame.isDirty == nil or frame.isDirty then
+            frame.obj:Fire("OnEnterPressed", frame:GetText())
+          end
+          frame.isDirty = nil
+        end, 0.1)
+      end)
+
     txt.editbox:SetNumeric(false)
     p:AddChild(txt)
     return txt
@@ -173,24 +183,33 @@ RPMGui = {
     b:DisableButton(true)
     b:SetMaxLetters(letters)
     b:SetText(text)
-    b:SetCallback("OnEnterPressed", function(self)
-      func(self)
-      aceGUI:ClearFocus()
+    b:SetCallback("OnRelease", function(obj)
+        obj.editBox:SetScript("OnTabPressed", nil)
+        obj.editBox:SetScript("OnEscapePressed", nil)
+        obj.editBox:SetScript("OnEditFocusLost", nil)
+      end)
+    b:SetCallback("OnTabPressed", function(obj)
+        obj.editBox.isDirty = false
+        func(obj)
+        aceGUI:ClearFocus()
+      end)
+    b.editBox:SetScript("OnTabPressed", function(frame) -- needed!
+        frame.obj:Fire("OnTabPressed", frame:GetText())
+      end)
+    b.editBox:SetScript("OnEscapePressed", function(frame)
+        frame.isDirty = false
+        b:SetText(text)
+        aceGUI:ClearFocus()
+      end)
+    b.editBox:SetScript("OnEditFocusLost", function(frame)
+      RPManager:ScheduleTimer(function()
+        if frame.isDirty == nil or frame.isDirty then
+          frame.obj:Fire("OnTabPressed", frame:GetText())
+        end
+        frame.isDirty = nil
+      end, 0.1)
     end)
-    b.editBox:SetScript("OnTabPressed", function(frame)
-      local self = frame.obj
-      local value = frame:GetText()
-      self:Fire("OnEnterPressed", value)
-    end)
-    b:SetCallback("OnLostFocus", function(frame)
-      local self = frame.obj
-      local value = frame:GetText()
-      self:Fire("OnEnterPressed", value)
-    end)
-    b.editBox:SetScript("OnEscapePressed", function()
-      b:SetText(text)
-      aceGUI:ClearFocus()
-    end)
+
     p:AddChild(b)
     return b
   end,
