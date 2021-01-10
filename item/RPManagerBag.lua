@@ -716,8 +716,14 @@ function RPM_runItemScript(itemID)
 --      RunScript(item.script)
 --    end)
 --  elseif RPMCharacterDB.profile.scriptPermissions == "whitelistScript" then
+
+    local custom = item.customization or ""
+    custom = string.gsub(custom, "%(", "") -- no method calls in custom code
+    custom = string.gsub(custom, "%)", "")
+    custom = string.gsub(custom, "%[", "") -- also no access to any field values
+    custom = string.gsub(custom, "%]", "")
     if RPMWhitelist.isWhitelisted(getScriptHash(item.script)) then
-      RunScript(item.script)
+      RunScript(custom .. "\n" .. item.script)
     end
 --  end
 end
