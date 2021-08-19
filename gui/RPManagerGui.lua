@@ -136,33 +136,35 @@ RPMGui = {
     txt:SetWidth(width)
     txt:DisableButton(true)
     txt:SetMaxLetters(_max)
+
+    local handleFocusGained = txt.editbox:GetScript("OnEditFocusGained")
     txt:SetCallback("OnRelease", function(obj)
-      obj.editbox:SetScript("OnEnterPressed", nil)
       obj.editbox:SetScript("OnTabPressed", nil)
       obj.editbox:SetScript("OnEscapePressed", nil)
+      obj.editbox:SetScript("OnEditFocusGained", handleFocusGained)
       obj.editbox:SetScript("OnEditFocusLost", nil)
     end)
     txt:SetCallback("OnEnterPressed", function(obj)
-        obj.editbox.isDirty = false
-        func(obj)
-        aceGUI:ClearFocus()
-      end)
-    txt.editbox:SetScript("OnTabPressed", function(frame)
-        frame.obj:Fire("OnEnterPressed", frame:GetText())
-      end)
-    txt.editbox:SetScript("OnEscapePressed", function(frame)
-        frame.isDirty = false
-        txt:SetText(text)
-        aceGUI:ClearFocus()
-      end)
+      func(obj)
+      aceGUI:ClearFocus()
+    end)
+
+    txt.editbox:SetScript("OnEditFocusGained", function(frame)
+      frame.origVal = frame:GetText()
+      handleFocusGained(frame)
+    end)
     txt.editbox:SetScript("OnEditFocusLost", function(frame)
-        RPManager:ScheduleTimer(function()
-          if frame.isDirty == nil or frame.isDirty then
-            frame.obj:Fire("OnEnterPressed", frame:GetText())
-          end
-          frame.isDirty = nil
-        end, 0.1)
-      end)
+      if frame.origVal ~= frame:GetText() then
+        frame.obj:Fire("OnEnterPressed", frame:GetText())
+      end
+    end)
+    txt.editbox:SetScript("OnTabPressed", function(frame)
+      frame.obj:Fire("OnEnterPressed", frame:GetText())
+    end)
+    txt.editbox:SetScript("OnEscapePressed", function(frame)
+      txt:SetText(frame.origVal)
+      aceGUI:ClearFocus()
+    end)
 
     txt.editbox:SetNumeric(false)
     p:AddChild(txt)
@@ -183,31 +185,34 @@ RPMGui = {
     b:DisableButton(true)
     b:SetMaxLetters(letters)
     b:SetText(text)
+
+    local handleFocusGained = b.editBox:GetScript("OnEditFocusGained")
     b:SetCallback("OnRelease", function(obj)
-        obj.editBox:SetScript("OnTabPressed", nil)
-        obj.editBox:SetScript("OnEscapePressed", nil)
-        obj.editBox:SetScript("OnEditFocusLost", nil)
-      end)
+      obj.editBox:SetScript("OnTabPressed", nil)
+      obj.editBox:SetScript("OnEscapePressed", nil)
+      obj.editBox:SetScript("OnEditFocusGained", handleFocusGained)
+      obj.editBox:SetScript("OnEditFocusLost", nil)
+    end)
     b:SetCallback("OnTabPressed", function(obj)
-        obj.editBox.isDirty = false
-        func(obj)
-        aceGUI:ClearFocus()
-      end)
-    b.editBox:SetScript("OnTabPressed", function(frame) -- needed!
-        frame.obj:Fire("OnTabPressed", frame:GetText())
-      end)
-    b.editBox:SetScript("OnEscapePressed", function(frame)
-        frame.isDirty = false
-        b:SetText(text)
-        aceGUI:ClearFocus()
-      end)
+      func(obj)
+      aceGUI:ClearFocus()
+    end)
+
+    b.editBox:SetScript("OnEditFocusGained", function(frame)
+      frame.origVal = frame:GetText()
+      handleFocusGained(frame)
+    end)
     b.editBox:SetScript("OnEditFocusLost", function(frame)
-      RPManager:ScheduleTimer(function()
-        if frame.isDirty == nil or frame.isDirty then
-          frame.obj:Fire("OnTabPressed", frame:GetText())
-        end
-        frame.isDirty = nil
-      end, 0.1)
+      if frame.origVal ~= frame:GetText() then
+        frame.obj:Fire("OnTabPressed", frame:GetText())
+      end
+    end)
+    b.editBox:SetScript("OnTabPressed", function(frame) -- needed!
+      frame.obj:Fire("OnTabPressed", frame:GetText())
+    end)
+    b.editBox:SetScript("OnEscapePressed", function(frame)
+      b:SetText(frame.origVal)
+      aceGUI:ClearFocus()
     end)
 
     p:AddChild(b)
@@ -312,11 +317,6 @@ RPMGui = {
     s:SetValue(curr)
     s:SetCallback("OnMouseUp", func)
     s.slider:SetObeyStepOnDrag(true)
-    --  s.slider:SetHeight(10)
-    --  s.editbox:SetHeight(10)
-    --  s.label:SetHeight(0)
-    --  s.frame:SetHeight(20)
-    --  s:SetHeight(15)
     p:AddChild(s)
     RPMGui.addStatusText(s, helpText, p)
     return s
@@ -326,6 +326,7 @@ RPMGui = {
     local container = aceGUI:Create("InlineGroup")
     container:SetFullWidth(true)
     container:SetHeight(h)
+    container.frame:SetHeight(h)
     container:SetLayout("Fill") -- important!
     p:AddChild(container)
 
@@ -335,6 +336,11 @@ RPMGui = {
     scroll.height = "fill"
     container:AddChild(scroll)
     scroll.parent = p.parent or p
+    scroll.container = container
+
+    if math.floor(scroll.container.frame:GetHeight()) ~= h then
+      scroll.container.frame:SetHeight(h+5)
+    end
     return scroll
   end,
 
