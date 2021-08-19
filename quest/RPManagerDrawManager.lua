@@ -329,6 +329,10 @@ function RPM_openChapterManFrm(questID, chapterNr)
   RPMGui.addButton(L["setSound"], 150, grp2, function()
     RPM_setSound(questID, chapterNr)
   end, L["setSoundDesc"])
+  RPMGui.addButton(L["delSound"], 150, grp2, function()
+    RPM_delSound(questID, chapterNr)
+  end, L["delSoundDesc"])
+
   RPMGui.addButton(L["newPara"], 150, grp2, function()
     RPM_addParagraph(questID, chapterNr)
   end, L["newParaDesc"])
@@ -412,6 +416,12 @@ function RPM_addParagraph(questID, chapterNr)
   local chapter = RPMAccountDB.quests[questID].chapters[chapterNr]
   chapter.para[#chapter.para+1] = { text="", type="EMOTE" }
   RPM_updateChapterManFrm(questID, chapterNr)
+end
+
+function RPM_delSound(questID, chapterNr)
+  RPMAccountDB.quests[questID].chapters[chapterNr].sound = ""
+  RPMAccountDB.quests[questID].chapters[chapterNr].soundFileId = ""
+  RPMUtil.stopSound()
 end
 
 function RPM_setSound(questID, chapterNr)
