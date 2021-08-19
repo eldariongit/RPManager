@@ -17,11 +17,11 @@
 		limitations under the License.
 	-->
   
+  <Include file="libs\libs.xml"/>
+
   <Include file="locale\locale.xml"/>
   
   <Script file="RPManagerVersionCheck.lua"/>
-  
-  <Include file="libs\libs.xml"/>
   
   <Script file="RPManager.lua"/>
   <Script file="RPManagerInit.lua"/>
