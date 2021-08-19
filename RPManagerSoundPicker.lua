@@ -98,7 +98,7 @@ function RPM_drawSoundPicker(filter, callback)
   f.currIndex = 1
   
   local iBox = RPMGui.addSimpleGroup("Flow", f)
-  local input = RPMGui.addEditBox("", filter, 200,30, iBox, nil)
+  local input = RPMGui.addEditBox("", filter, 200, 30, iBox, function() end)
   input:SetCallback("OnTextChanged", function(self, event, text)
     RPM_updateSoundPicker(text)
   end)
@@ -117,9 +117,11 @@ end
 
 function RPM_closeSoundPicker()
   RPMUtil.stopSound()
-  RPManager.soundPickerDialog:Release()
-  RPManager.soundPickerDialog:Hide()
-  RPManager.soundPickerDialog = nil
+  if RPManager.soundPickerDialog ~= nil then
+    RPManager.soundPickerDialog:Hide()
+    RPManager.soundPickerDialog:Release()
+    RPManager.soundPickerDialog = nil
+  end
 end
 
 --local function formatTime(secs)
